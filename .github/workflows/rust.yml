@@ -3,23 +3,22 @@ name: Rust CI
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
-    branches: 
-    - main
+    branches:
+      - main
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-    
+
       - name: Set up Rust
         uses: actions/setup-rust@v2
         with:
@@ -35,8 +34,9 @@ jobs:
 
       - name: Run Clippy
         run: cargo clippy -- -D warnings
-          
+      
       - name: Build
         run: cargo build --release
+
       - name: Run tests
         run: cargo test
