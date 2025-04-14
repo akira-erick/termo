@@ -1,9 +1,8 @@
-pub struct Word{
-    word: String
+pub struct Word {
+    word: String,
 }
 impl Word {
-    pub fn new(word:String) -> Word {
-
+    pub fn new(word: String) -> Word {
         if word.len() != 5 {
             panic!("Word must be 5 characters long");
         }
@@ -11,14 +10,13 @@ impl Word {
             panic!("Word must only contain alphabetic characters without accents");
         }
         let word = word.to_lowercase();
-        Word { word: word }
+        Word { word }
     }
 
     pub fn get_word(&self) -> &String {
         &self.word
     }
 
-    
     pub fn attempt(&self, attempt: String) -> [char; 5] {
         if attempt.len() != 5 {
             panic!("Word must be 5 characters long");
@@ -33,13 +31,13 @@ impl Word {
         let attempt_chars = attempt.chars().collect::<Vec<_>>();
 
         for i in 0..5 {
-            if attempt_chars[i] == word_chars[i]{
+            if attempt_chars[i] == word_chars[i] {
                 result[i] = 'G';
             }
         }
-        for i in 0..5{
+        for i in 0..5 {
             if let Some(pos) = word_chars.iter().position(|&c| c == attempt_chars[i]) {
-                if result[i] != 'G'{
+                if result[i] != 'G' {
                     result[i] = 'Y';
                 }
                 word_chars.remove(pos);
@@ -54,10 +52,9 @@ impl Word {
     #[allow(dead_code)]
     fn get_word_list() -> Vec<String> {
         vec![
-            "barro", "banco", "bicho", "bisco", "macho",
-            "omega", "arara", "livro", "viola", "frita",
-            "sorte", "sabor", "carta", "corte", "festa",
-            "pasta", "piano", "salsa", "torta", "tigre",
+            "barro", "banco", "bicho", "bisco", "macho", "omega", "arara", "livro", "viola",
+            "frita", "sorte", "sabor", "carta", "corte", "festa", "pasta", "piano", "salsa",
+            "torta", "tigre",
         ]
         .into_iter()
         .map(|s| s.to_string())
