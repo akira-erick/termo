@@ -1,7 +1,11 @@
+use rand::Rng;
+
 pub struct Word {
     word: String,
 }
 impl Word {
+
+    #[allow(dead_code)]
     pub fn new(word: String) -> Word {
         if word.len() != 5 {
             panic!("Word must be 5 characters long");
@@ -11,6 +15,14 @@ impl Word {
         }
         let word = word.to_lowercase();
         Word { word }
+    }
+
+    pub fn random() -> Word {
+        let words = Word::get_word_list();
+        let mut rng = rand::thread_rng();
+        let random_index = rng.gen_range(0..words.len());
+        let random_word = words[random_index].clone();
+        Word { word: random_word }
     }
 
     pub fn get_word(&self) -> &String {
@@ -26,35 +38,40 @@ impl Word {
         }
         let attempt = attempt.to_lowercase();
 
-        let mut result = [' '; 5];
+        let mut result = ['R'; 5];
         let mut word_chars = self.word.chars().collect::<Vec<_>>();
         let attempt_chars = attempt.chars().collect::<Vec<_>>();
 
         for i in 0..5 {
             if attempt_chars[i] == word_chars[i] {
                 result[i] = 'G';
+                word_chars[i] = ' ';
             }
         }
+
         for i in 0..5 {
-            if let Some(pos) = word_chars.iter().position(|&c| c == attempt_chars[i]) {
-                if result[i] != 'G' {
-                    result[i] = 'Y';
+            if result[i] != 'G' {
+                for j in 0..5 {
+                    if attempt_chars[i] == word_chars[j] {
+                        result[i] = 'Y';
+                        word_chars[j] = ' ';
+                        break;
+                    }
+                    
                 }
-                word_chars.remove(pos);
-            } else {
-                result[i] = 'R';
             }
         }
 
         result
     }
 
-    #[allow(dead_code)]
+    
     fn get_word_list() -> Vec<String> {
         vec![
             "barro", "banco", "bicho", "bisco", "macho", "omega", "arara", "livro", "viola",
             "frita", "sorte", "sabor", "carta", "corte", "festa", "pasta", "piano", "salsa",
-            "torta", "tigre",
+            "torta", "tigre", "tinta", "labio", "visto", "vocal", "zebra", "zorro", "banda",
+            "caixa", "tecla", "marte", "luvas", "baixo", "linda", "comer", "lemos", "pariu",
         ]
         .into_iter()
         .map(|s| s.to_string())
