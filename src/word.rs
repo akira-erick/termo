@@ -4,7 +4,6 @@ pub struct Word {
     word: String,
 }
 impl Word {
-
     #[allow(dead_code)]
     pub fn new(word: String) -> Word {
         if word.len() != 5 {
@@ -51,13 +50,12 @@ impl Word {
 
         for i in 0..5 {
             if result[i] != 'G' {
-                for j in 0..5 {
-                    if attempt_chars[i] == word_chars[j] {
+                for j in word_chars.iter_mut().take(5) {
+                    if attempt_chars[i] == *j {
                         result[i] = 'Y';
-                        word_chars[j] = ' ';
+                        *j = ' ';
                         break;
                     }
-                    
                 }
             }
         }
@@ -65,7 +63,6 @@ impl Word {
         result
     }
 
-    
     fn get_word_list() -> Vec<String> {
         vec![
             "barro", "banco", "bicho", "bisco", "macho", "omega", "arara", "livro", "viola",

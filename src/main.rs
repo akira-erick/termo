@@ -15,11 +15,14 @@ fn main() {
     let mut attempt = input.trim().to_string();
 
     let mut times = 1;
-    
+
     while attempt != "exit" {
         let resp = word.attempt(attempt.clone());
         if resp == ['G', 'G', 'G', 'G', 'G'] {
-            println!("Congratulations! You guessed the word: {:?}", word.get_word());
+            println!(
+                "Congratulations! You guessed the word: {:?}",
+                word.get_word()
+            );
             println!("It took you {} attempts.", times);
             break;
         } else {
