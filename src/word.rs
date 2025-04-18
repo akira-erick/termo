@@ -101,6 +101,13 @@ mod tests {
     }
 
     #[test]
+    fn test_all_yellow_letters() {
+        let word = Word::new("abcde".to_string());
+        let result = word.attempt("edbac".to_string());
+        assert_eq!(result, ['Y', 'Y', 'Y', 'Y', 'Y']);
+    }
+
+    #[test]
     #[should_panic(expected = "Word must be 5 characters long")]
     fn test_word_creation_too_short() {
         Word::new("bar".to_string());
