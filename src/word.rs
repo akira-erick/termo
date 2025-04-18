@@ -5,7 +5,7 @@ pub struct Word {
 }
 impl Word {
     #[allow(dead_code)]
-    pub fn new(word: String) -> Word {
+    fn new(word: String) -> Word {
         if word.len() != 5 {
             panic!("Word must be 5 characters long");
         }
