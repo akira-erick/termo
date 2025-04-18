@@ -94,6 +94,13 @@ mod tests {
     }
 
     #[test]
+    fn test_all_same_letters() {
+        let word = Word::new("aaaaa".to_string());
+        let result = word.attempt("aaaaa".to_string());
+        assert_eq!(result, ['G', 'G', 'G', 'G', 'G']);
+    }
+
+    #[test]
     #[should_panic(expected = "Word must be 5 characters long")]
     fn test_word_creation_too_short() {
         Word::new("bar".to_string());
