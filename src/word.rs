@@ -101,6 +101,13 @@ mod tests {
     }
 
     #[test]
+    fn test_one_green_letter() {
+        let word = Word::new("abcde".to_string());
+        let result = word.attempt("afghi".to_string());
+        assert_eq!(result, ['G', 'R', 'R', 'R', 'R']);
+    }
+
+    #[test]
     fn test_all_yellow_letters() {
         let word = Word::new("abcde".to_string());
         let result = word.attempt("edbac".to_string());
