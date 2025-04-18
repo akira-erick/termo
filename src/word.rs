@@ -87,14 +87,14 @@ mod tests {
     }
 
     #[test]
-    fn test_all_different_letters() {
+    fn test_all_red_letters() {
         let word = Word::new("abcde".to_string());
         let result = word.attempt("fghij".to_string());
         assert_eq!(result, ['R', 'R', 'R', 'R', 'R']);
     }
 
     #[test]
-    fn test_all_same_letters() {
+    fn test_all_green_letters() {
         let word = Word::new("aaaaa".to_string());
         let result = word.attempt("aaaaa".to_string());
         assert_eq!(result, ['G', 'G', 'G', 'G', 'G']);
