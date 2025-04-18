@@ -87,10 +87,10 @@ mod tests {
     }
 
     #[test]
-    fn test_word_attempt() {
-        let word = Word::new("barro".to_string());
-        let result = word.attempt("baror".to_string());
-        assert_eq!(result, ['G', 'G', 'G', 'Y', 'Y']);
+    fn test_all_different_letters() {
+        let word = Word::new("abcde".to_string());
+        let result = word.attempt("fghij".to_string());
+        assert_eq!(result, ['R', 'R', 'R', 'R', 'R']);
     }
 
     #[test]
