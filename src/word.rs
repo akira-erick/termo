@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::fs;
 
 pub struct Word {
     word: String,
@@ -64,15 +65,9 @@ impl Word {
     }
 
     fn get_word_list() -> Vec<String> {
-        vec![
-            "barro", "banco", "bicho", "bisco", "macho", "omega", "arara", "livro", "viola",
-            "frita", "sorte", "sabor", "carta", "corte", "festa", "pasta", "piano", "salsa",
-            "torta", "tigre", "tinta", "labio", "visto", "vocal", "zebra", "zorro", "banda",
-            "caixa", "tecla", "marte", "luvas", "baixo", "linda", "comer", "lemos", "pariu",
-        ]
-        .into_iter()
-        .map(|s| s.to_string())
-        .collect()
+        let data =
+            fs::read_to_string("src/words_data/words_data.txt").expect("Unable to read file");
+        data.lines().map(|line| line.to_string()).collect()
     }
 }
 
