@@ -5,7 +5,6 @@ pub struct Word {
     word: String,
 }
 impl Word {
-    #[allow(dead_code)]
     fn new(word: String) -> Word {
         if word.len() != 5 {
             panic!("Word must be 5 characters long");
@@ -22,7 +21,7 @@ impl Word {
         let mut rng = rand::thread_rng();
         let random_index = rng.gen_range(0..words.len());
         let random_word = words[random_index].clone();
-        Word { word: random_word }
+        Word::new(random_word)
     }
 
     pub fn get_word(&self) -> &String {
