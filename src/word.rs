@@ -6,13 +6,15 @@ pub struct Word {
 }
 impl Word {
     fn new(word: String) -> Word {
-        if word.len() != 5 {
-            panic!("Word must be 5 characters long");
-        }
-        if !word.chars().all(|c| c.is_alphabetic()) {
-            panic!("Word must only contain alphabetic characters without accents");
-        }
+        if !Word::validate_word_length(&word) {
+            panic!("Word must be 5 characters long")
+        };
+        if !Word::validate_word_alphabetic(&word) {
+            panic!("Word must only contain alphabetic characters without accents")
+        };
+
         let word = word.to_lowercase();
+
         Word { word }
     }
 
@@ -29,12 +31,13 @@ impl Word {
     }
 
     pub fn attempt(&self, attempt: String) -> [char; 5] {
-        if attempt.len() != 5 {
-            panic!("Word must be 5 characters long");
-        }
-        if !attempt.chars().all(|c| c.is_alphabetic()) {
-            panic!("Word must only contain alphabetic characters without accents");
-        }
+        if !Word::validate_word_length(&attempt) {
+            panic!("Word must be 5 characters long")
+        };
+        if !Word::validate_word_alphabetic(&attempt) {
+            panic!("Word must only contain alphabetic characters without accents")
+        };
+
         let attempt = attempt.to_lowercase();
 
         let mut result = ['R'; 5];
@@ -61,6 +64,14 @@ impl Word {
         }
 
         result
+    }
+
+    fn validate_word_length(word: &str) -> bool {
+        word.chars().count() == 5
+    }
+
+    fn validate_word_alphabetic(word: &str) -> bool {
+        word.chars().all(|c| c.is_alphabetic())
     }
 
     fn get_word_list() -> Vec<String> {
@@ -120,6 +131,20 @@ mod tests {
         let word = Word::new("abcde".to_string());
         let result = word.attempt("afghb".to_string());
         assert_eq!(result, ['G', 'R', 'R', 'R', 'Y']);
+    }
+
+    #[test]
+    fn test_word_validation_length() {
+        assert!(Word::validate_word_length("abcde"));
+        assert!(!Word::validate_word_length("abcd"));
+        assert!(!Word::validate_word_length("abcdef"));
+    }
+
+    #[test]
+    fn test_word_validation_alphabetic() {
+        assert!(Word::validate_word_alphabetic("abcde"));
+        assert!(!Word::validate_word_alphabetic("abc1e"));
+        assert!(!Word::validate_word_alphabetic("abcde!"));
     }
 
     #[test]
