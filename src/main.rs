@@ -26,7 +26,12 @@ fn main() {
             println!("It took you {} attempts.", times);
             break;
         } else {
-            println!("Attempt: {:?}", resp);
+            let str: String = resp
+                .iter()
+                .map(|c| c.to_string())
+                .collect::<Vec<_>>()
+                .join(" ");
+            println!("Attempt: {:?}", str);
         }
         input.clear();
         println!("Enter a 5-letter word:");
