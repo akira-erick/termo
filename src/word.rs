@@ -6,14 +6,7 @@ pub struct Word {
 }
 impl Word {
     fn new(word: String) -> Word {
-        if !Word::validate_word_length(&word) {
-            panic!("Word must be 5 characters long")
-        };
-        if !Word::validate_word_alphabetic(&word) {
-            panic!("Word must only contain alphabetic characters without accents")
-        };
-
-        let word = word.to_lowercase();
+        Word::prepare_word(&word);
 
         Word { word }
     }
@@ -31,14 +24,7 @@ impl Word {
     }
 
     pub fn attempt(&self, attempt: String) -> [char; 5] {
-        if !Word::validate_word_length(&attempt) {
-            panic!("Word must be 5 characters long")
-        };
-        if !Word::validate_word_alphabetic(&attempt) {
-            panic!("Word must only contain alphabetic characters without accents")
-        };
-
-        let attempt = attempt.to_lowercase();
+        Word::prepare_word(&attempt);
 
         let mut result = ['R'; 5];
         let mut word_chars = self.word.chars().collect::<Vec<_>>();
@@ -72,6 +58,17 @@ impl Word {
 
     fn validate_word_alphabetic(word: &str) -> bool {
         word.chars().all(|c| c.is_alphabetic())
+    }
+
+    fn prepare_word(word: &str) -> String {
+        if !Word::validate_word_length(word) {
+            panic!("Word must be 5 characters long")
+        };
+        if !Word::validate_word_alphabetic(word) {
+            panic!("Word must only contain alphabetic characters without accents")
+        };
+
+        word.to_lowercase()
     }
 
     fn get_word_list() -> Vec<String> {
@@ -145,6 +142,12 @@ mod tests {
         assert!(Word::validate_word_alphabetic("abcde"));
         assert!(!Word::validate_word_alphabetic("abc1e"));
         assert!(!Word::validate_word_alphabetic("abcde!"));
+    }
+
+    #[test]
+    fn test_word_preparation() {
+        let word = Word::prepare_word("abCde");
+        assert_eq!(word, "abcde");
     }
 
     #[test]
