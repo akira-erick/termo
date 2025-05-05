@@ -165,7 +165,7 @@ mod tests {
     #[test]
     fn test_word_attempt_too_short() {
         let word = Word::new("barro".to_string());
-        assert_eq!(word.attempt("bar".to_string()).is_err(), true);
+        assert!(word.attempt("bar".to_string()).is_err());
         assert_eq!(
             word.attempt("bar".to_string()).unwrap_err(),
             "Word must be 5 characters long"
@@ -175,7 +175,7 @@ mod tests {
     #[test]
     fn test_word_attempt_invalid_characters() {
         let word = Word::new("barro".to_string());
-        assert_eq!(word.attempt("b@rro".to_string()).is_err(), true);
+        assert!(word.attempt("b@rro".to_string()).is_err());
         assert_eq!(
             word.attempt("b@rro".to_string()).unwrap_err(),
             "Word must only contain alphabetic characters without accents"
