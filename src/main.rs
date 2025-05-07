@@ -17,7 +17,7 @@ fn main() {
     let mut times = 1;
 
     while attempt != "exit" {
-        let resp = word.attempt(attempt.clone());
+        let resp = word.attempt(&attempt);
         if resp.is_err() {
             println!("Invalid word. Please enter a valid 5-letter word.");
             input.clear();

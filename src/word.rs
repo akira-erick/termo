@@ -23,7 +23,7 @@ impl Word {
         &self.word
     }
 
-    pub fn attempt(&self, attempt: String) -> Result<[char; 5], String> {
+    pub fn attempt(&self, attempt: &str) -> Result<[char; 5], String> {
         Word::prepare_word(&attempt)?;
 
         let mut result = ['R'; 5];
@@ -67,7 +67,6 @@ impl Word {
         if !Word::validate_word_alphabetic(word) {
             return Err("Word must only contain alphabetic characters without accents".to_string());
         };
-
         Ok(word.to_lowercase())
     }
 
@@ -91,42 +90,42 @@ mod tests {
     #[test]
     fn test_all_red_letters() {
         let word = Word::new("abcde".to_string());
-        let result = word.attempt("fghij".to_string());
+        let result = word.attempt("fghij");
         assert_eq!(result.unwrap(), ['R', 'R', 'R', 'R', 'R']);
     }
 
     #[test]
     fn test_all_green_letters() {
         let word = Word::new("aaaaa".to_string());
-        let result = word.attempt("aaaaa".to_string());
+        let result = word.attempt("aaaaa");
         assert_eq!(result.unwrap(), ['G', 'G', 'G', 'G', 'G']);
     }
 
     #[test]
     fn test_one_green_letter() {
         let word = Word::new("abcde".to_string());
-        let result = word.attempt("afghi".to_string());
+        let result = word.attempt("afghi");
         assert_eq!(result.unwrap(), ['G', 'R', 'R', 'R', 'R']);
     }
 
     #[test]
     fn test_all_yellow_letters() {
         let word = Word::new("abcde".to_string());
-        let result = word.attempt("edbac".to_string());
+        let result = word.attempt("edbac");
         assert_eq!(result.unwrap(), ['Y', 'Y', 'Y', 'Y', 'Y']);
     }
 
     #[test]
     fn test_one_yellow_letter() {
         let word = Word::new("abcde".to_string());
-        let result = word.attempt("faghi".to_string());
+        let result = word.attempt("faghi");
         assert_eq!(result.unwrap(), ['R', 'Y', 'R', 'R', 'R']);
     }
 
     #[test]
     fn test_mixed_letters() {
         let word = Word::new("abcde".to_string());
-        let result = word.attempt("afghb".to_string());
+        let result = word.attempt("afghb");
         assert_eq!(result.unwrap(), ['G', 'R', 'R', 'R', 'Y']);
     }
 
@@ -165,9 +164,9 @@ mod tests {
     #[test]
     fn test_word_attempt_too_short() {
         let word = Word::new("barro".to_string());
-        assert!(word.attempt("bar".to_string()).is_err());
+        assert!(word.attempt("bar").is_err());
         assert_eq!(
-            word.attempt("bar".to_string()).unwrap_err(),
+            word.attempt("bar").unwrap_err(),
             "Word must be 5 characters long"
         );
     }
@@ -175,9 +174,9 @@ mod tests {
     #[test]
     fn test_word_attempt_invalid_characters() {
         let word = Word::new("barro".to_string());
-        assert!(word.attempt("b@rro".to_string()).is_err());
+        assert!(word.attempt("b@rro").is_err());
         assert_eq!(
-            word.attempt("b@rro".to_string()).unwrap_err(),
+            word.attempt("b@rro").unwrap_err(),
             "Word must only contain alphabetic characters without accents"
         );
     }
