@@ -5,17 +5,17 @@ pub struct Word {
     word: String,
 }
 impl Word {
-    fn new(word: String) -> Word {
-        Word::prepare_word(&word).expect("Invalid word");
+    fn new(word: &str) -> Result<Word, String> {
+        Word::prepare_word(&word)?;
 
-        Word { word }
+        Ok(Word { word: word.to_string() })
     }
 
-    pub fn from_random() -> Word {
+    pub fn from_random() -> Result<Word, String> {
         let words = Word::get_word_list();
         let mut rng = rand::thread_rng();
         let random_index = rng.gen_range(0..words.len());
-        let random_word = words[random_index].clone();
+        let random_word = &words[random_index];
         Word::new(random_word)
     }
 
@@ -83,48 +83,48 @@ mod tests {
 
     #[test]
     fn test_word_creation() {
-        let word = Word::new("barro".to_string());
+        let word = Word::new("barro").unwrap();
         assert_eq!(word.get_word(), "barro");
     }
 
     #[test]
     fn test_all_red_letters() {
-        let word = Word::new("abcde".to_string());
+        let word = Word::new("abcde").unwrap();
         let result = word.attempt("fghij");
         assert_eq!(result.unwrap(), ['R', 'R', 'R', 'R', 'R']);
     }
 
     #[test]
     fn test_all_green_letters() {
-        let word = Word::new("aaaaa".to_string());
+        let word = Word::new("aaaaa").unwrap();
         let result = word.attempt("aaaaa");
         assert_eq!(result.unwrap(), ['G', 'G', 'G', 'G', 'G']);
     }
 
     #[test]
     fn test_one_green_letter() {
-        let word = Word::new("abcde".to_string());
+        let word = Word::new("abcde").unwrap();
         let result = word.attempt("afghi");
         assert_eq!(result.unwrap(), ['G', 'R', 'R', 'R', 'R']);
     }
 
     #[test]
     fn test_all_yellow_letters() {
-        let word = Word::new("abcde".to_string());
+        let word = Word::new("abcde").unwrap();
         let result = word.attempt("edbac");
         assert_eq!(result.unwrap(), ['Y', 'Y', 'Y', 'Y', 'Y']);
     }
 
     #[test]
     fn test_one_yellow_letter() {
-        let word = Word::new("abcde".to_string());
+        let word = Word::new("abcde").unwrap();
         let result = word.attempt("faghi");
         assert_eq!(result.unwrap(), ['R', 'Y', 'R', 'R', 'R']);
     }
 
     #[test]
     fn test_mixed_letters() {
-        let word = Word::new("abcde".to_string());
+        let word = Word::new("abcde").unwrap();
         let result = word.attempt("afghb");
         assert_eq!(result.unwrap(), ['G', 'R', 'R', 'R', 'Y']);
     }
@@ -152,18 +152,18 @@ mod tests {
     #[test]
     #[should_panic(expected = "Word must be 5 characters long")]
     fn test_word_creation_too_short() {
-        Word::new("bar".to_string());
+        Word::new("bar");
     }
 
     #[test]
     #[should_panic(expected = "Word must only contain alphabetic characters without accents")]
     fn test_word_creation_invalid_characters() {
-        Word::new("b@rro".to_string());
+        Word::new("b@rro");
     }
 
     #[test]
     fn test_word_attempt_too_short() {
-        let word = Word::new("barro".to_string());
+        let word = Word::new("barro").unwrap();
         assert!(word.attempt("bar").is_err());
         assert_eq!(
             word.attempt("bar").unwrap_err(),
@@ -173,7 +173,7 @@ mod tests {
 
     #[test]
     fn test_word_attempt_invalid_characters() {
-        let word = Word::new("barro".to_string());
+        let word = Word::new("barro").unwrap();
         assert!(word.attempt("b@rro").is_err());
         assert_eq!(
             word.attempt("b@rro").unwrap_err(),
