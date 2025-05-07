@@ -3,7 +3,7 @@ use std::io;
 mod word;
 
 fn main() {
-    let word = word::Word::random();
+    let word = word::Word::from_random();
 
     let mut input = String::new();
 

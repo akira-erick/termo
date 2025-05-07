@@ -11,7 +11,7 @@ impl Word {
         Word { word }
     }
 
-    pub fn random() -> Word {
+    pub fn from_random() -> Word {
         let words = Word::get_word_list();
         let mut rng = rand::thread_rng();
         let random_index = rng.gen_range(0..words.len());
