@@ -6,9 +6,11 @@ pub struct Word {
 }
 impl Word {
     fn new(word: &str) -> Result<Word, String> {
-        Word::prepare_word(&word)?;
+        Word::prepare_word(word)?;
 
-        Ok(Word { word: word.to_string() })
+        Ok(Word {
+            word: word.to_string(),
+        })
     }
 
     pub fn from_random() -> Result<Word, String> {
@@ -24,7 +26,7 @@ impl Word {
     }
 
     pub fn attempt(&self, attempt: &str) -> Result<[char; 5], String> {
-        Word::prepare_word(&attempt)?;
+        Word::prepare_word(attempt)?;
 
         let mut result = ['R'; 5];
         let mut word_chars = self.word.chars().collect::<Vec<_>>();
@@ -152,13 +154,13 @@ mod tests {
     #[test]
     #[should_panic(expected = "Word must be 5 characters long")]
     fn test_word_creation_too_short() {
-        Word::new("bar");
+        Word::new("bar").unwrap();
     }
 
     #[test]
     #[should_panic(expected = "Word must only contain alphabetic characters without accents")]
     fn test_word_creation_invalid_characters() {
-        Word::new("b@rro");
+        Word::new("b@rro").unwrap();
     }
 
     #[test]
